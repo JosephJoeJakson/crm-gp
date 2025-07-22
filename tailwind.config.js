@@ -7,9 +7,15 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gray: {
+          300: '#D1D5DB', // Custom color definition
+        },
+      },
+    },
   },
   plugins: [
     forms,
   ],
-}
+};

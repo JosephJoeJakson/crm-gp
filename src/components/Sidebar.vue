@@ -14,6 +14,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between p-6 border-b border-gray-200">
       <h1 class="text-2xl font-bold text-black">Mini-CRM</h1>
+
       <button
         @click="closeMobileMenu"
         class="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-colors"
@@ -25,7 +26,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="p-4 space-y-2">
+    <nav class="p-4 space-y-2 flex-1">
       <router-link
         v-for="item in menuItems"
         :key="item.name"
@@ -38,6 +39,19 @@
         <span>{{ item.name }}</span>
       </router-link>
     </nav>
+
+    <!-- Logout Button -->
+    <div class="px-4 pb-6">
+      <button
+        @click="logout"
+        class="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg font-medium shadow-md hover:bg-red-600 transition-all"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5m0 14a9 9 0 100-18 9 9 0 000 18z" />
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
 
   <!-- Mobile menu button -->
@@ -53,9 +67,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const isMobileMenuOpen = ref(false);
 
 const menuItems = [
@@ -64,6 +79,11 @@ const menuItems = [
   { name: 'Orders', path: '/orders', emoji: '📦' },
   { name: 'Client Lists', path: '/client-lists', emoji: '🧾' },
 ];
+
+const logout = () => {
+  localStorage.removeItem('isLoggedIn');
+  router.push('/login');
+};
 
 const isActive = computed(() => (path: string) => {
   return route.path.startsWith(path);
